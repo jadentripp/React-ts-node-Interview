@@ -1,4 +1,4 @@
-import React, {FC, useState } from "react";
+import React, {useState} from "react";
 import "./App.css";
 import Header from "./components/Header";
 import LeftArea from "./components/LeftArea";
@@ -10,23 +10,7 @@ import { Todo, ToggleComplete, AddTodo, DeleteTodo} from "./types";
 
 const App: React.FC = () => {
 
-    //so basically what I'm doing here is separating the true values from the untrue values so I can pass them as props to the left and right area components
-    //I got an infinite loop after adding some of this stuff below down to line 30, but I'm not sure what seems to be the problem
-
     const [todos, setTodos] = useState<Array<Todo>>(initialTodos)
-    const [uncompletedTodos, setUnCompletedTodos] = useState<Array<Todo>>([])
-    const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([])
-
-    const uncompleted = todos.filter(todo=>{
-        return todo.complete !== true
-    })
-    setUnCompletedTodos(uncompleted)
-        
-    const completed = todos.filter(todo=>{
-        return todo.complete === true
-    })
-    setCompletedTodos(completed)
-    
     //methods for changing todo items
     const toggleComplete: ToggleComplete = selectedTodo => {
         const updatedTodos = todos.map(todo => {
@@ -37,10 +21,12 @@ const App: React.FC = () => {
         });
         setTodos(updatedTodos)
     }
+    const now = new Date();
+    const time = `hour:${now.getHours} minute:${now.getMinutes} second:${now.getSeconds}`
 
     const addTodo: AddTodo = newTodo => {
         newTodo.trim() !== '' &&
-            setTodos([...todos, {text: newTodo, complete: false}])
+            setTodos([...todos, {text: newTodo, complete: false, createdTime: time}])
     }
 
     const deleteTodo: DeleteTodo = selectedTodo => {
@@ -49,14 +35,14 @@ const App: React.FC = () => {
         })
         setTodos(newTodos)
     }
-
+//right area is completed or done and left is where input will be and unchecked items will be. 
     return (
         <div className="app">
             <Header />
             <section className="main-area">
                 <React.Fragment>
-                    <LeftArea todos={uncompletedTodos} toggleComplete={toggleComplete} deleteTodo={deleteTodo} addTodo={addTodo}/>
-                    <RightArea todos={completedTodos} toggleComplete={toggleComplete} deleteTodo={deleteTodo}/>
+                    <LeftArea todos={todos.filter(x => x.complete !== true)} toggleComplete={toggleComplete} deleteTodo={deleteTodo} addTodo={addTodo}/>
+                    <RightArea todos={todos.filter(x => x.complete === true)} toggleComplete={toggleComplete} deleteTodo={deleteTodo}/>
                 </React.Fragment>
             </section>
         </div>

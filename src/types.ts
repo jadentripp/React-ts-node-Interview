@@ -1,6 +1,7 @@
 export type Todo = {
     text: string;
     complete: boolean;
+    createdTime: string;
 }
 
 export type ToggleComplete = (selectedTodo: Todo) => void;

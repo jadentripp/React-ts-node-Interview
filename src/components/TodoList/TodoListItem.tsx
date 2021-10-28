@@ -8,7 +8,6 @@ interface TodoListItemProps {
     deleteTodo: DeleteTodo;
 }
 
-//component for each item
 
 export const TodoListItem: React.FC<TodoListItemProps> = ({todo, toggleComplete, deleteTodo}) => {
     return(
@@ -22,6 +21,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({todo, toggleComplete,
                 {todo.text}
             </label>
             <br />
+            <p>Created at {todo.createdTime}</p>
             <button onClick={()=> deleteTodo(todo)}>Delete</button>
         </li>
     )

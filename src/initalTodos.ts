@@ -6,10 +6,12 @@ import { Todo } from "./types";
 export const initialTodos: Array<Todo> = [
   {
     text: "Make app for Conexed Interview",
-    complete: true
+    complete: true,
+    createdTime: 'when initialialized'
   },
   {
     text: "Think of gifts for birthday",
-    complete: false
+    complete: false,
+    createdTime: 'when initialized'
   }
 ];
